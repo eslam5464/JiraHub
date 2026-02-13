@@ -7,13 +7,15 @@ RUN apk add --no-cache \
     postgresql-dev \
     libffi-dev
 
-# Install uv (pinned to specific version for reproducibility)
-COPY --from=ghcr.io/astral-sh/uv:0.4.9 /uv /usr/local/bin/uv
-
 # Set uv configuration for production
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_PYTHON_DOWNLOADS=never
+    UV_PYTHON_DOWNLOADS=never \
+    UV_VERSION=0.10.2
+
+# Install uv (pinned to specific version for reproducibility)
+COPY --from=ghcr.io/astral-sh/uv:${UV_VERSION} /uv /usr/local/bin/uv
+
 
 WORKDIR /app
 
