@@ -5,7 +5,9 @@ FROM python:3.13-alpine AS builder
 RUN apk add --no-cache \
     build-base \
     postgresql-dev \
-    libffi-dev
+    libffi-dev \
+    ca-certificates \
+    build-essential
 
 # Set uv configuration for production
 ENV UV_COMPILE_BYTECODE=1 \
