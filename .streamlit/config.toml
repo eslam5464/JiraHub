@@ -10,12 +10,8 @@ maxUploadSize = 200
 gatherUsageStats = false
 serverAddress = "localhost"
 
-[theme]
-base = "light"
-primaryColor = "#1f77b4"
-
 [logger]
 level = "info"
 
 [client]
-toolbarMode = "minimal"
+toolbarMode = "viewer"

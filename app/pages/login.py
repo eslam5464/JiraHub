@@ -10,10 +10,8 @@ def render():
     st.markdown("Sign in to access the Jira Team Dashboard.")
 
     with st.form("login_form"):
-        email = st.text_input(
-            "Email", placeholder="you@dar.com", value="eslam.mohamedahmed@dar.com"
-        )
-        password = st.text_input("Password", type="password", value="asdQWE123")
+        email = st.text_input("Email", placeholder="you@dar.com")
+        password = st.text_input("Password", type="password")
         submitted = st.form_submit_button("Login", use_container_width=True)
 
     if submitted:
