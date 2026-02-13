@@ -28,12 +28,15 @@ from app.schemas.jira.user import JiraUser
 class JiraClient:
     """Async Jira Cloud API client using httpx."""
 
-    def __init__(self, base_url: str, email: str, api_token: str):
+    def __init__(self, base_url: str, email: str, api_token: str, proxy_url: str | None = None):
         self.base_url = base_url.rstrip("/")
         self._email = email
         self._auth_header = self._build_auth_header(email, api_token)
+        self._proxy_url = proxy_url
         self._client: httpx.AsyncClient | None = None
-        logger.debug(f"JiraClient initialized: base_url={self.base_url}, email={email}")
+        logger.debug(
+            f"JiraClient initialized: base_url={self.base_url}, email={email}, proxy={proxy_url or 'None'}"
+        )
 
     @staticmethod
     def _build_auth_header(email: str, api_token: str) -> str:
@@ -50,11 +53,19 @@ class JiraClient:
 
     async def _get_client(self) -> httpx.AsyncClient:
         if self._client is None or self._client.is_closed:
-            self._client = httpx.AsyncClient(
-                base_url=self.base_url,
-                headers=self._headers,
-                timeout=httpx.Timeout(30.0),
-            )
+            # Create AsyncClient with optional proxy
+            client_kwargs = {
+                "base_url": self.base_url,
+                "headers": self._headers,
+                "timeout": httpx.Timeout(30.0),
+            }
+
+            # Add proxy if configured
+            if self._proxy_url:
+                client_kwargs["proxies"] = self._proxy_url
+                logger.debug(f"Using proxy: {self._proxy_url}")
+
+            self._client = httpx.AsyncClient(**client_kwargs)
         return self._client
 
     async def close(self) -> None:

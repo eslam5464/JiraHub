@@ -1,6 +1,7 @@
 import streamlit as st
 from loguru import logger
 
+from app.core.config import get_settings
 from app.core.exceptions.domain import JiraAuthenticationError, JiraConnectionError
 from app.services.auth_service import AuthService
 from app.services.jira_client import JiraClient
@@ -59,7 +60,10 @@ def render():
             try:
                 # Validate + store in a single async context to avoid event loop issues
                 async def _connect():
-                    client = JiraClient(jira_url, jira_email, jira_token)
+                    settings = get_settings()
+                    client = JiraClient(
+                        jira_url, jira_email, jira_token, proxy_url=settings.proxy_url
+                    )
                     try:
                         jira_user = await client.get_myself()
                     finally:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from app.core.config import get_settings
 from app.schemas.jira.issue import (
     JiraIssue,
     JiraWorklogResponse,
@@ -23,7 +24,8 @@ def _get_jira_client() -> JiraClient | None:
         return None
     try:
         jira_url, jira_email, token = run_async(AuthService.get_jira_token(user["id"]))
-        return JiraClient(jira_url, jira_email, token)
+        settings = get_settings()
+        return JiraClient(jira_url, jira_email, token, proxy_url=settings.proxy_url)
     except Exception:
         return None
 

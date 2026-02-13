@@ -36,6 +36,12 @@ class Settings(BaseSettings):
     redis_user: str
     redis_pass: str
 
+    # Network
+    proxy_url: str | None = Field(
+        default=None,
+        description="HTTP/HTTPS proxy URL (e.g., http://proxy.example.com:8080)",
+    )
+
     # Database
     db_path: str = Field(default="./data/jira_app.db", description="Path to SQLite database file")
 
