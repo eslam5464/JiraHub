@@ -6,8 +6,7 @@ RUN apk add --no-cache \
     build-base \
     postgresql-dev \
     libffi-dev \
-    ca-certificates \
-    build-essential
+    ca-certificates
 
 # Set uv configuration for production
 ENV UV_COMPILE_BYTECODE=1 \
