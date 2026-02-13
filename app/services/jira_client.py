@@ -62,7 +62,7 @@ class JiraClient:
 
             # Add proxy if configured
             if self._proxy_url:
-                client_kwargs["proxies"] = self._proxy_url
+                client_kwargs["proxy"] = self._proxy_url
                 logger.debug(f"Using proxy: {self._proxy_url}")
 
             self._client = httpx.AsyncClient(**client_kwargs)
