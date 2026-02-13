@@ -13,11 +13,10 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_PYTHON_DOWNLOADS=never \
     UV_VERSION=0.10.2
 
-# Install uv (pinned to specific version for reproducibility)
-COPY --from=ghcr.io/astral-sh/uv:${UV_VERSION} /uv /usr/local/bin/uv
-
-
 WORKDIR /app
+
+# Install UV
+RUN pip install --no-cache-dir uv==${UV_VERSION}
 
 # Copy dependency files first for better caching
 COPY pyproject.toml uv.lock* ./
