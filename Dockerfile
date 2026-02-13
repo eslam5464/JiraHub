@@ -20,7 +20,7 @@ WORKDIR /app
 RUN pip install --no-cache-dir uv==${UV_VERSION}
 
 # Copy dependency files first for better caching
-COPY pyproject.toml uv.lock* ./
+COPY pyproject.toml uv.lock README.md* ./
 
 # Create virtual environment at /app/.venv and install dependencies
 RUN uv sync --frozen --no-dev --allow-insecure-host files.pythonhosted.org
