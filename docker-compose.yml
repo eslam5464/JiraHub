@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - app-data:/app/data
+      - app-logs:/app/logs
+    environment:
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ALLOWED_EMAIL_DOMAIN=${ALLOWED_EMAIL_DOMAIN}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=${REDIS_DB:-0}
+      - REDIS_USER=${REDIS_USER:-default}
+      - REDIS_PASS=${REDIS_PASS:-password}
+      - DB_PATH=/app/data/jira_app.db
+      - SESSION_EXPIRY_HOURS=${SESSION_EXPIRY_HOURS:-72}
+      - DEBUG=${DEBUG:-false}
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - jira-net
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - jira-net
+
+volumes:
+  app-data:
+  app-logs:
+  redis-data:
+
+networks:
+  jira-net:
+    driver: bridge
