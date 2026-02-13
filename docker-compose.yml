@@ -15,9 +15,9 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_DB=${REDIS_DB:-0}
-      - REDIS_USER=${REDIS_USER:-default}
-      - REDIS_PASS=${REDIS_PASS:-password}
+      - REDIS_DB=${REDIS_DB}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_PASS=${REDIS_PASS}
       - DB_PATH=/app/data/jira_app.db
       - SESSION_EXPIRY_HOURS=${SESSION_EXPIRY_HOURS:-72}
       - DEBUG=${DEBUG:-false}
@@ -30,10 +30,15 @@ services:
 
   redis:
     image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASS}
+    environment:
+      - REDIS_PASS=${REDIS_PASS}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_DB=${REDIS_DB}
     volumes:
       - redis-data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASS}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
