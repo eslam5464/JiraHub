@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir uv==${UV_VERSION}
 COPY pyproject.toml uv.lock* ./
 
 # Create virtual environment at /app/.venv and install dependencies
-RUN uv sync --frozen --no-dev --allow-insecure-host files.pythonhosted.org --no-cache-dir --no-wheels
+RUN uv sync --frozen --no-dev --allow-insecure-host files.pythonhosted.org
 
 # Production stage
 FROM python:3.13-alpine AS production
