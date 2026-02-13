@@ -69,8 +69,8 @@ A **comprehensive Jira team management dashboard** built with Streamlit. JiraHub
 1. **Clone or Download the Project**
 
    ```bash
-   git clone <repository-url>
-   cd JiraAutomation
+   git clone https://github.com/eslam5464/JiraHub.git
+   cd JiraHub
    ```
 
 2. **Create & Activate Virtual Environment**
@@ -123,8 +123,8 @@ A **comprehensive Jira team management dashboard** built with Streamlit. JiraHub
 1. **Clone and Setup Repository**
 
    ```bash
-   git clone <repository-url>
-   cd JiraAutomation
+   git clone https://github.com/eslam5464/JiraHub.git
+   cd JiraHub
 
    # Create virtual environment with uv
    uv venv
@@ -175,7 +175,7 @@ A **comprehensive Jira team management dashboard** built with Streamlit. JiraHub
 #### Project Structure for Development
 
 ```
-JiraAutomation/
+JiraHub/
 ├── app/
 │   ├── core/              # Configuration & constants
 │   │   ├── config.py      # Settings via pydantic-settings
@@ -935,7 +935,3 @@ Built with:
 - [Jira Cloud REST API](https://developer.atlassian.com/cloud/jira/rest/) - Issue tracking data
 - [httpx](https://www.python-httpx.org) - Async HTTP client
 - [Redis](https://redis.io) - In-memory cache
-
----
-
-**JiraHub v0.1.0** • Last updated: February 2026
